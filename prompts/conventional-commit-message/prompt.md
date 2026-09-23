@@ -3,6 +3,7 @@ id: conventional-commit-message
 title: Write a Conventional Commits message from a diff
 description: Turns a git diff into a commit message following the Conventional Commits spec, including breaking-change markers when the diff changes a public API.
 version: "1.0.0"
+modality: text
 tags: [git, coding, writing]
 author: sachin-sn
 variables: [diff]

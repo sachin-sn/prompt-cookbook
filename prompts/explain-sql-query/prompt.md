@@ -3,6 +3,7 @@ id: explain-sql-query
 title: Explain a SQL query in plain English
 description: Walks through what a SQL query returns, clause by clause in logical evaluation order, and flags gotchas like NULL handling and join duplication.
 version: "1.0.0"
+modality: text
 tags: [sql, explanation, coding]
 author: sachin-sn
 variables: [query]

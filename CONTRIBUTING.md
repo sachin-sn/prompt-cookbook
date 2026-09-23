@@ -11,6 +11,8 @@ Thanks for helping! New prompts, better evals for existing prompts, and tooling 
 5. Run `npm run validate -- <id>` until it passes. Validation fails as long as any `TODO` is left.
 6. Open a PR.
 
+If it's your first contribution, CI waits for a maintainer to approve the run before it starts. This is normal for public repos. Every change to `main` needs a maintainer review.
+
 Your PR doesn't need to include benchmark results. Benchmarks run after merge using the project's own API keys, so contributors never need keys or pay anything.
 
 ## Writing good evals
@@ -31,6 +33,12 @@ Benchmarks run in a CI job that holds real API keys, so anything that could exec
 - `file://` references anywhere in `evals.yaml`
 - template logic in prompts. Only plain `{{ variable }}` placeholders are allowed: no `{% %}`, `{# #}`, filters, or expressions.
 - any files in a prompt folder other than `prompt.md` and `evals.yaml`
+
+## Text vs. image prompts
+
+Every prompt has a `modality` field. Right now only `modality: text` is accepted.
+
+Image-generation prompts (posters, illustrations, …) are planned. They need their own kinds of checks: image dimensions, OCR for the text in the image, and a vision-model judge. If you have one in mind, open a prompt-request issue so it's ready when support lands.
 
 ## Tags
 

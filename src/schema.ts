@@ -42,12 +42,22 @@ const uniqueArray = <T extends z.ZodTypeAny>(item: T) =>
 
 // ---------- prompt.md frontmatter ----------
 
+/**
+ * What the prompt produces. Only "text" can be validated and benchmarked
+ * today; "image" is reserved in the schema now so the catalog contract with
+ * ch-ai.in doesn't have to change later. Image support (image assertion
+ * types, image models, image storage) is built in Phase 2.
+ */
+export const MODALITIES = ["text", "image"] as const;
+export const SUPPORTED_MODALITIES: ReadonlySet<(typeof MODALITIES)[number]> = new Set(["text"]);
+
 export const PromptFrontmatterSchema = z
   .object({
     id: slug.describe("Must match the prompt's folder name."),
     title: z.string().min(5).max(100),
     description: z.string().min(10).max(240),
     version: semver,
+    modality: z.enum(MODALITIES).default("text"),
     tags: uniqueArray(slug).min(1).max(LIMITS.maxTagsPerPrompt),
     author: githubHandle,
     variables: uniqueArray(variableName).max(LIMITS.maxVariablesPerPrompt).default([]),

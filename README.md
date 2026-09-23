@@ -4,7 +4,7 @@ Open-source prompts that come with evidence that they work.
 
 Every prompt in this repo ships with its own test cases. Those tests are run against several LLMs, and the pass rate is published per model. You can browse, search, and copy the prompts at **[ch-ai.in/prompt-cookbook](https://ch-ai.in/prompt-cookbook)**.
 
-> **Status:** early. The repo structure and validation are in place. Automated benchmarking and the website are coming next.
+> **Status:** early. The repo structure and validation are in place. Automated benchmarking and the website are coming next. Prompts that generate images are planned. The `modality` field already exists, but only `text` prompts are accepted for now.
 
 ## What a score means
 

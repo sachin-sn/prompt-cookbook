@@ -2,7 +2,7 @@ import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { basename, join } from "node:path";
 import type { z } from "zod";
 import { parseFrontmatter, readYamlFile } from "./files.ts";
-import { EvalsFileSchema, PromptFrontmatterSchema, TagsFileSchema } from "./schema.ts";
+import { EvalsFileSchema, PromptFrontmatterSchema, SUPPORTED_MODALITIES, TagsFileSchema } from "./schema.ts";
 import { hasTemplateSyntax, scanTemplate } from "./template.ts";
 
 export const PROMPT_FILE = "prompt.md";
@@ -85,6 +85,12 @@ export function validatePromptDir(dir: string, allowedTags: Set<string>): Valida
 
   if (frontmatter.id !== folder) {
     errors.push(`${PROMPT_FILE} → id: "${frontmatter.id}" must match the folder name "${folder}"`);
+  }
+  if (!SUPPORTED_MODALITIES.has(frontmatter.modality)) {
+    errors.push(
+      `${PROMPT_FILE} → modality: "${frontmatter.modality}" prompts aren't supported yet — only "text" can be validated and benchmarked for now`,
+    );
+    return result;
   }
   for (const tag of frontmatter.tags) {
     if (!allowedTags.has(tag)) {

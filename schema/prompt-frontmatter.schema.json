@@ -22,6 +22,14 @@
       "type": "string",
       "pattern": "^\\d+\\.\\d+\\.\\d+$"
     },
+    "modality": {
+      "default": "text",
+      "type": "string",
+      "enum": [
+        "text",
+        "image"
+      ]
+    },
     "tags": {
       "minItems": 1,
       "maxItems": 5,

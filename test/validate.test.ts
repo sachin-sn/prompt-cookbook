@@ -47,6 +47,23 @@ test("a well-formed prompt passes", () => {
   assert.deepEqual(makePrompt({ "prompt.md": goodPrompt(), "evals.yaml": goodEvals }), []);
 });
 
+test("modality defaults to text when omitted", () => {
+  const withoutModality = goodPrompt();
+  assert.ok(!withoutModality.includes("modality"));
+  assert.deepEqual(makePrompt({ "prompt.md": withoutModality, "evals.yaml": goodEvals }), []);
+});
+
+test("image prompts are rejected until Phase 2", () => {
+  expectError(
+    makePrompt({ "prompt.md": goodPrompt({ modality: "image" }), "evals.yaml": goodEvals }),
+    /"image" prompts aren't supported yet/,
+  );
+});
+
+test("unknown modalities are rejected", () => {
+  expectError(makePrompt({ "prompt.md": goodPrompt({ modality: "video" }), "evals.yaml": goodEvals }), /modality/);
+});
+
 test("id must match folder name", () => {
   expectError(makePrompt({ "prompt.md": goodPrompt(), "evals.yaml": goodEvals }, "other-name"), /must match the folder name/);
 });

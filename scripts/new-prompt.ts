@@ -102,7 +102,7 @@ rl.close();
 const dir = join(root, "prompts", id);
 mkdirSync(dir, { recursive: true });
 
-const frontmatter = stringify({ id, title, description, version: "1.0.0", tags, author, variables }, { lineWidth: 0 });
+const frontmatter = stringify({ id, title, description, version: "1.0.0", modality: "text", tags, author, variables }, { lineWidth: 0 });
 
 const placeholderUse = variables.length
   ? `\n\nInputs: ${variables.map((v) => `{{ ${v} }}`).join(", ")}`

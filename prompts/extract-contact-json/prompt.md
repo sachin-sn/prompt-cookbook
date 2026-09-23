@@ -3,6 +3,7 @@ id: extract-contact-json
 title: Extract contact details as JSON
 description: Pulls a person's name, email, phone, and company out of free text into a fixed JSON shape, using null for anything not present instead of guessing.
 version: "1.0.0"
+modality: text
 tags: [extraction, json]
 author: sachin-sn
 variables: [text]
