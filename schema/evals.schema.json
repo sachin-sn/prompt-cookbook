@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "tests": {
+      "minItems": 1,
+      "maxItems": 10,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 200
+          },
+          "vars": {
+            "default": {},
+            "type": "object",
+            "propertyNames": {
+              "type": "string",
+              "pattern": "^[a-z_][a-z0-9_]*$"
+            },
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "assert": {
+            "minItems": 1,
+            "maxItems": 5,
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": [
+                        "equals",
+                        "contains",
+                        "icontains",
+                        "starts-with",
+                        "regex",
+                        "not-equals",
+                        "not-contains",
+                        "not-icontains",
+                        "not-starts-with",
+                        "not-regex"
+                      ]
+                    },
+                    "value": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "value"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": [
+                        "contains-any",
+                        "contains-all",
+                        "icontains-any",
+                        "icontains-all",
+                        "not-contains-any",
+                        "not-contains-all",
+                        "not-icontains-any",
+                        "not-icontains-all"
+                      ]
+                    },
+                    "value": {
+                      "minItems": 1,
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "value"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": [
+                        "is-json",
+                        "contains-json",
+                        "not-is-json",
+                        "not-contains-json"
+                      ]
+                    },
+                    "value": {
+                      "type": "object",
+                      "propertyNames": {
+                        "type": "string"
+                      },
+                      "additionalProperties": {}
+                    }
+                  },
+                  "required": [
+                    "type"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "llm-rubric"
+                    },
+                    "value": {
+                      "type": "string",
+                      "minLength": 10,
+                      "description": "What a correct answer must do, in plain English."
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "value"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            }
+          }
+        },
+        "required": [
+          "description",
+          "assert"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "tests"
+  ],
+  "additionalProperties": false
+}

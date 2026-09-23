@@ -1,0 +1,15 @@
+# Models every prompt is benchmarked against (used from Phase 2 onward).
+# Provider ids use promptfoo's format. Keep this list short — every entry
+# multiplies the cost of each benchmark run.
+#
+# TODO-PHASE-0: confirm the final model list and judge before Phase 2.
+# The judge grades llm-rubric assertions; ideally it's not one of the models
+# under test (or is at least disclosed on the site), to avoid self-grading bias.
+judge: anthropic:messages:claude-sonnet-5
+models:
+  - id: claude-sonnet-5
+    provider: anthropic:messages:claude-sonnet-5
+    label: Claude Sonnet 5
+  - id: claude-haiku-4-5
+    provider: anthropic:messages:claude-haiku-4-5-20251001
+    label: Claude Haiku 4.5

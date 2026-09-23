@@ -1,0 +1,54 @@
+tests:
+  - description: Full email signature
+    vars:
+      text: |
+        Thanks for the quick turnaround!
+
+        Priya Raman
+        Head of Partnerships, Northwind Labs
+        priya.raman@northwind.example | +91 98450 12345
+    assert:
+      - type: is-json
+        value:
+          type: object
+          required: [name, email, phone, company]
+          additionalProperties: false
+          properties:
+            name: { const: Priya Raman }
+            email: { const: priya.raman@northwind.example }
+            phone: { type: string }
+            company: { const: Northwind Labs }
+      - type: contains
+        value: "98450 12345"
+
+  - description: Missing phone number stays null
+    vars:
+      text: |
+        Hi, this is Tom from Acme. You can reach me at tom@acme.example whenever works.
+    assert:
+      - type: is-json
+        value:
+          type: object
+          required: [name, email, phone, company]
+          additionalProperties: false
+          properties:
+            name: { type: string }
+            email: { const: tom@acme.example }
+            phone: { type: "null" }
+            company: { const: Acme }
+
+  - description: Text with no contact details returns all nulls
+    vars:
+      text: |
+        Please find the invoice for March attached. Payment is due within 30 days.
+    assert:
+      - type: is-json
+        value:
+          type: object
+          required: [name, email, phone, company]
+          additionalProperties: false
+          properties:
+            name: { type: "null" }
+            email: { type: "null" }
+            phone: { type: "null" }
+            company: { type: "null" }

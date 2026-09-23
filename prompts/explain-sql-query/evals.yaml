@@ -1,0 +1,47 @@
+tests:
+  - description: Join + GROUP BY + HAVING, with a grouping-by-name gotcha
+    vars:
+      query: |
+        SELECT c.name, COUNT(o.id) AS order_count
+        FROM customers c
+        LEFT JOIN orders o ON o.customer_id = c.id
+        GROUP BY c.name
+        HAVING COUNT(o.id) > 5
+        ORDER BY order_count DESC;
+    assert:
+      - type: icontains-all
+        value: [summary, step by step, gotchas]
+      - type: llm-rubric
+        value: >-
+          Explains that the query lists customers with more than five orders, sorted by
+          order count from highest to lowest, and points out that customers who share the
+          same name would be merged into a single row because it groups by c.name rather
+          than c.id.
+
+  - description: NOT IN with a subquery that may contain NULLs
+    vars:
+      query: |
+        SELECT *
+        FROM products
+        WHERE category_id NOT IN (SELECT category_id FROM discontinued_categories);
+    assert:
+      - type: icontains
+        value: "null"
+      - type: llm-rubric
+        value: >-
+          Explains that the query returns products whose category is not discontinued, and
+          warns that if the subquery returns any NULL category_id, NOT IN evaluates to
+          unknown for every row and the query returns no rows at all.
+
+  - description: LIMIT without ORDER BY
+    vars:
+      query: |
+        SELECT email FROM users WHERE created_at >= '2026-01-01' LIMIT 10;
+    assert:
+      - type: icontains-all
+        value: [summary, step by step, gotchas]
+      - type: llm-rubric
+        value: >-
+          Explains that it returns at most 10 email addresses of users created on or after
+          1 January 2026, and notes that without ORDER BY, which 10 rows come back is not
+          guaranteed.
