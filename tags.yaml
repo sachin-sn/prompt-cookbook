@@ -1,0 +1,40 @@
+# The allowed tag vocabulary. Every prompt's `tags` must come from this list.
+# New tags are welcome — add them here in the same PR as the prompt that needs
+# them, with a one-line description, so near-duplicates get caught in review.
+tags:
+  - name: coding
+    description: Writing, reviewing, or explaining code
+  - name: debugging
+    description: Finding and fixing bugs
+  - name: sql
+    description: SQL queries and databases
+  - name: git
+    description: Commits, diffs, branches, and version control
+  - name: testing
+    description: Writing or reviewing tests
+  - name: documentation
+    description: READMEs, docstrings, and technical docs
+  - name: explanation
+    description: Explaining something in plain language
+  - name: writing
+    description: Drafting or editing prose
+  - name: editing
+    description: Improving existing text
+  - name: summarization
+    description: Condensing longer content
+  - name: extraction
+    description: Pulling structured data out of unstructured text
+  - name: json
+    description: Producing JSON output
+  - name: classification
+    description: Sorting inputs into categories
+  - name: translation
+    description: Converting between human languages
+  - name: email
+    description: Writing or replying to emails
+  - name: data-analysis
+    description: Interpreting data, tables, or metrics
+  - name: reasoning
+    description: Multi-step reasoning and problem solving
+  - name: productivity
+    description: Planning, notes, and everyday work tasks

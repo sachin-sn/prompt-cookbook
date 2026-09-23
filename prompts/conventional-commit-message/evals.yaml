@@ -1,0 +1,68 @@
+tests:
+  - description: Off-by-one bug fix is typed as fix
+    vars:
+      diff: |
+        diff --git a/src/utils/sum.js b/src/utils/sum.js
+        --- a/src/utils/sum.js
+        +++ b/src/utils/sum.js
+        @@ -1,6 +1,6 @@
+         export function sum(values) {
+           let total = 0;
+        -  for (let i = 0; i <= values.length; i++) {
+        +  for (let i = 0; i < values.length; i++) {
+             total += values[i];
+           }
+           return total;
+    assert:
+      - type: regex
+        value: "^fix(\\([a-z0-9-]+\\))?: "
+      - type: regex
+        value: "^[^\\n]{1,72}(\\n|$)"
+      - type: not-contains
+        value: "```"
+
+  - description: New exported function is typed as feat
+    vars:
+      diff: |
+        diff --git a/src/format.ts b/src/format.ts
+        --- a/src/format.ts
+        +++ b/src/format.ts
+        @@ -10,3 +10,10 @@ export function formatDate(d: Date): string {
+           return d.toISOString().slice(0, 10);
+         }
+        +
+        +export function formatCurrency(amount: number, currency = "INR"): string {
+        +  return new Intl.NumberFormat("en-IN", { style: "currency", currency }).format(amount);
+        +}
+    assert:
+      - type: regex
+        value: "^feat(\\([a-z0-9-]+\\))?: "
+      - type: regex
+        value: "^[^\\n]{1,72}(\\n|$)"
+      - type: not-contains
+        value: "```"
+
+  - description: Changed public function signature is marked as breaking
+    vars:
+      diff: |
+        diff --git a/src/client.ts b/src/client.ts
+        --- a/src/client.ts
+        +++ b/src/client.ts
+        @@ -1,8 +1,12 @@
+        -export function connect(url: string, timeoutMs?: number): Client {
+        -  return new Client(url, { timeoutMs: timeoutMs ?? 5000 });
+        +export interface ConnectOptions {
+        +  url: string;
+        +  timeoutMs?: number;
+        +}
+        +
+        +export function connect(options: ConnectOptions): Client {
+        +  return new Client(options.url, { timeoutMs: options.timeoutMs ?? 5000 });
+         }
+    assert:
+      - type: regex
+        value: "^[a-z]+(\\([a-z0-9-]+\\))?!: "
+      - type: contains
+        value: "BREAKING CHANGE:"
+      - type: not-contains
+        value: "```"

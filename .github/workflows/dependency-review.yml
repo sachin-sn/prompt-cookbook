@@ -1,0 +1,23 @@
+name: Dependency review
+
+# Fails a PR that adds a dependency with a known vulnerability (moderate or
+# higher) or an incompatible license. Runs without secrets, like validate.yml.
+
+on:
+  pull_request:
+    paths:
+      - package.json
+      - package-lock.json
+
+permissions:
+  contents: read
+
+jobs:
+  dependency-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/dependency-review-action@v5
+        with:
+          fail-on-severity: moderate
+          deny-licenses: GPL-3.0, AGPL-3.0

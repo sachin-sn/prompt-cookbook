@@ -1,0 +1,50 @@
+name: Validate
+
+# Runs on every PR, including PRs from forks. Deliberately uses `pull_request`
+# (never `pull_request_target`), a read-only token, and no secrets: this job
+# executes contributor-supplied code and must not be able to reach API keys.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci --ignore-scripts
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Validator unit tests
+        run: npm test
+
+      - name: Validate prompts
+        run: npm run validate
+
+      - name: Generated JSON Schemas are up to date
+        run: |
+          npm run schema:export
+          if ! git diff --exit-code -- schema/; then
+            echo "::error::schema/ is out of date — run 'npm run schema:export' and commit the result"
+            exit 1
+          fi
