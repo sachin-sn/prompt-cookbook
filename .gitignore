@@ -1,0 +1,50 @@
+# ─── Dependencies ────────────────────────────────────────────
+node_modules/
+
+# ─── Secrets ─────────────────────────────────────────────────
+# API keys live in your shell env locally, and in a GitHub
+# environment in CI — never in files in this repo.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ─── Generated locally (the committed/published copies are
+#     produced by CI, never by hand) ─────────────────────────
+# catalog.json is built by CI and published on the `data` branch
+catalog.json
+# local benchmark runs (npm run eval) — results are published by CI only
+.promptfoo/
+promptfoo-output*
+results/local/
+# generated images from local image-prompt runs (Phase 2)
+generated-images/
+# scratch space for scripts
+.cache/
+tmp/
+dist/
+out/
+
+# NOTE: schema/*.schema.json IS committed on purpose — CI checks
+# it's up to date. Don't add schema/ here.
+
+# ─── Logs & debug ────────────────────────────────────────────
+*.log
+npm-debug.log*
+.npm/
+*.tsbuildinfo
+coverage/
+
+# ─── OS ──────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── Editors ─────────────────────────────────────────────────
+.idea/
+*.swp
+*.swo
+*~
+.vscode/*
+!.vscode/extensions.json

@@ -1,0 +1,10 @@
+# Every change needs a maintainer review. Changes to the validator, schemas,
+# scripts, and workflows are security-sensitive: the Phase 3 benchmark job
+# runs with real API keys, and these files decide what is allowed to reach it.
+*            @sachin-sn
+/src/        @sachin-sn
+/scripts/    @sachin-sn
+/.github/    @sachin-sn
+/schema/     @sachin-sn
+/models.yaml @sachin-sn
+/SECURITY.md @sachin-sn
